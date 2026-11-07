@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<title>Azerbaycan Haritam</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><span class="logo">🗺️</span><div><h1>Azerbaycan Haritam</h1><p id="subtitle">Rayonları keşfet, işaretle</p></div></div>
+    <div class="top-actions">
+      <button class="icon-btn" id="btnTheme" title="Tema">🌓</button>
+      <button class="icon-btn" id="btnPng" title="PNG indir">⬇️ <span>PNG</span></button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="map-wrap" id="mapWrap">
+      <svg id="map" xmlns="http://www.w3.org/2000/svg" aria-label="Azerbaycan haritası"></svg>
+      <div class="tip" id="tip" hidden></div>
+      <div class="map-ctrl">
+        <button id="zIn" aria-label="Yakınlaştır">＋</button>
+        <button id="zOut" aria-label="Uzaklaştır">－</button>
+        <button id="zReset" aria-label="Sıfırla">⤢</button>
+      </div>
+      <div class="hint">Tıkla: seç · Çift tıkla / çift dokun: durum seç</div>
+      <div class="sel-card" id="selCard" hidden>
+        <div><strong id="selName"></strong><small id="selStatus"></small></div>
+        <div class="sel-btns"><button id="selEdit" class="btn primary">Durum</button><button id="selClear" class="btn">Temizle</button></div>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <nav class="tabs">
+        <button class="tab active" data-tab="list">Bölgeler</button>
+        <button class="tab" data-tab="stats">İstatistik</button>
+        <button class="tab" data-tab="settings">Ayarlar</button>
+      </nav>
+
+      <div class="pane active" id="pane-list">
+        <input id="search" type="search" placeholder="Bölge ara… (örn. Şəki)" autocomplete="off">
+        <div class="chips" id="filters"></div>
+        <ul class="list" id="list"></ul>
+      </div>
+
+      <div class="pane" id="pane-stats">
+        <div class="ring-box">
+          <svg viewBox="0 0 120 120" class="ring"><circle cx="60" cy="60" r="52" class="ring-bg"/><circle cx="60" cy="60" r="52" class="ring-fg" id="ringFg"/></svg>
+          <div class="ring-txt"><b id="ringPct">0%</b><span id="ringSub">0 / 0</span></div>
+        </div>
+        <div class="stat-grid" id="statGrid"></div>
+        <h3>Son işaretlenenler</h3>
+        <ul class="list compact" id="recent"></ul>
+      </div>
+
+      <div class="pane" id="pane-settings">
+        <h3>Durum renkleri</h3>
+        <p class="muted">Seçilen renk, o durumdaki tüm bölgelere uygulanır.</p>
+        <div id="colorSettings"></div>
+        <h3>Veri</h3>
+        <div class="row">
+          <button class="btn" id="btnExport">Yedekle (JSON)</button>
+          <label class="btn">İçe aktar<input type="file" id="fileImport" accept="application/json" hidden></label>
+        </div>
+        <button class="btn danger wide" id="btnReset">Tüm işaretleri sıfırla</button>
+        <h3>Veri kaynağı</h3>
+        <p class="muted">Sınırlar: <a href="https://gadm.org" target="_blank" rel="noopener">GADM v1.0</a> Azerbaycan rayon verisi (CC BY-NC-SA 3.0), <a href="https://github.com/climboid/azerbaijanMap" target="_blank" rel="noopener">climboid/azerbaijanMap</a> üzerinden. Veri 2009 tarihlidir; yeni idari değişiklikler yansımayabilir.</p>
+      </div>
+    </aside>
+  </main>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true">
+    <button class="x" id="mClose" aria-label="Kapat">✕</button>
+    <h2 id="mTitle"></h2>
+    <p class="muted" id="mType"></p>
+    <div class="opts" id="mOpts"></div>
+    <textarea id="mNote" rows="2" placeholder="Not / anı ekle (isteğe bağlı)"></textarea>
+    <div class="row"><button class="btn" id="mClear">İşareti kaldır</button><button class="btn primary" id="mSave">Kaydet</button></div>
+  </div>
+</div>
+<div class="modal" id="pngModal" hidden><div class="sheet"><button class="x" id="pClose" aria-label="Kapat">✕</button><h2>Harita PNG</h2><img id="pImg" alt="Harita"><p class="muted">İndirme çalışmazsa görsele basılı tut (veya sağ tıkla) ve kaydet.</p><a class="btn primary" id="pDl" download="azerbaycan-haritam.png">PNG indir</a></div></div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="data/rayons.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
